@@ -18,9 +18,19 @@ class Gallery {
             if(!in_array($extension, $extensions)) { //check if files extensions meet the criteria set in folder.php
                 unset($images[$index]);
             } else {
+		    
+		    $getPath = explode('/', $this->path);
+		    $folderName = '';
+		    foreach ($getPath as $pk => $pv) {
+                      if ($pk < 2) continue;
+                      $folderName .= $pv.'/';
+                    }
+
                 $images[$index] = array( //make an array of images and corresponding miniatures
                     'full' => $this->path . '/' . $image,
-                    'thumb' => 'thmbnailer.php?f='.$this->path . '&i=' . $image
+		    'thumb' => 'thmbnailer.php?f='.$this->path . '&i=' . $image,
+		    'folder' => $folderName,
+		    'file' => $image
                     );
             }
            

@@ -29,7 +29,7 @@
             src="<?= $image['thumb']; ?>" width="100%"></a>
 		    	<br />
 			      	<div class="picture_card_description">
-						<a href="unlink.php?f=<?=$image['full']?>" target="frame" title="delete" style="color:darkred">[x]</a>
+				<a href="unlink.php?f=<?=$image['folder']?>&i=<?=$image['file']?>" target="frame" title="delete" style="color:darkred">[x]</a>
 			    	<span class="glyphicon glyphicon-time"></span>&nbsp;<span 
             class="picture_card_description_date"><?php echo $img_date; ?></span>
 			    	<br />
