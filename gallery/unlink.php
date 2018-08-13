@@ -8,8 +8,9 @@ $getFolder = isset($_GET['f']) ? $_GET['f'] : '';
 $getFile = isset($_GET['i']) ? $_GET['i'] : '';
 
 if (in_array($_SERVER['REMOTE_ADDR'], $adminRightIps)) {
-   if (substr($getFolder,0,2) === '..') exit ('Not allowed folder path');	
-   if (substr($getFile,0,2) === '..') exit ('Not allowed image path');	
+   if (preg_match("/\./", $getFolder)) exit('Not allowed folder path');	
+   if (preg_match("/\.\./", $getFile) || $getFile === '') exit('Not allowed file path');	
+   
    $deleteFile = $basedir.$getFolder.$getFile;
 
    if (unlink($deleteFile)) {
