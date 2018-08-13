@@ -39,7 +39,7 @@ function resizeImage($thumbDir, $basedir, $folder, $imageFile, $width, $height, 
 
     //The blur factor where > 1 is blurry, < 1 is sharp.
     $imagick = new \Imagick(realpath($imagePath));
-
+    $imagick->setCompressionQuality(60);
     $imagick->resizeImage($width, $height, $filterType, $blur, $bestFit);
 
     $cropWidth = $imagick->getImageWidth();

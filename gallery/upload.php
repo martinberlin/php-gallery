@@ -3,6 +3,7 @@
  * Created by https://fasani.de
  * Date: 11.08.18
  */
+error_reporting(E_ALL);
 require "config.php";
 $uploadDir = $basedir.$_POST['folder'].'/';
 $fileName = basename($_FILES['image']['name']);
@@ -16,8 +17,13 @@ if (in_array($_SERVER['REMOTE_ADDR'], $adminRightIps)) {
         echo "/$uploadDir created";
     }
     try {
-        move_uploaded_file($_FILES['image']['tmp_name'], $uploadfile);
-        echo "File: $fileName was successfully uploaded.\n";
+	$moveFile =  move_uploaded_file($_FILES['image']['tmp_name'], $uploadfile);
+        if ($moveFile) {
+           echo "File: $fileName was successfully uploaded.\n";
+          } else {
+           echo "File was not uploaded<br>";
+           print_r(error_get_last()); print_r($_FILES['image']);
+          }
     } catch (Exception $exception) {
         echo "Possible file upload attack!\n";
         echo($exception->getMessage());print_r($exception->getTrace());
