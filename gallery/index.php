@@ -18,7 +18,7 @@ include 'head.template.php'; ?>
 		if ($fileinfo->isDir() && !$fileinfo->isDot()) {
 
 			$images = scandir($basedir.$fileinfo->getFilename());
-			$imageUrl = $basedir.$fileinfo->getFilename().'/'.$images[2];
+			$imageUrl = $thumbBaseDir.$fileinfo->getFilename().'/'.$images[2];
 			// First and second have . .. in array
 			$row_counter++;
 			?>
