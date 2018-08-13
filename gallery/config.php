@@ -2,6 +2,8 @@
 
 // Directory where the pictures are uploaded
 $basedir    = "../uploads/";
+$thumbBaseDir    = "../thumbs/";
+
 $page_title = "api.slosarek Cam uploads";
 
 $imageAllowedExtensions = ['jpg','jpeg','png','JPG','PNG'];
@@ -12,7 +14,7 @@ $thumbWidth = 400;
 $thumbHeight = 400;
 $thumbBestFit = true;
 $thumbCroopZoom = true;
-$thumbBaseDir    = "../thumbs/";
+
 // Validity of the cache
 $thumbCacheValidity = 240 * 60 * 60; // 240 * 3600s = 240 hours = 10 days -> Ater this thumbs will be regenerated
 // IPs allowed to delete / upload
