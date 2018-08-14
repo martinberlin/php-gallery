@@ -24,6 +24,3 @@ if (in_array($_SERVER['REMOTE_ADDR'], $adminRightIps)) {
 }
 
 
-if ($delete) {
-    echo "Image deleted";
-}

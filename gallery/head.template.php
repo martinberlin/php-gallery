@@ -5,7 +5,7 @@
 
     <?php // Your mileage may vary with this one, in my mobile it renders better without it ?>
     <!--<meta name='viewport' content='width=device-width,initial-scale=1'>-->
-    <title><?php echo $page_title; ?></title>
+    <title><?=isset($getFolder) ? $getFolder : $page_title ?></title>
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.4/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.10.0/css/lightbox.min.css" rel="stylesheet" />
