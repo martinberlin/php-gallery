@@ -8,10 +8,11 @@ class Gallery {
     private function getDirectory($path) {
         return scandir($path);
     }
+
     public function getImages($extensions = array()) {
         $images = $this->getDirectory($this->path); //list all files
-        
-        
+        $sort = array();
+
         foreach($images as $index => $image) {
             $explode = explode('.', $image);
             $extension = end($explode);
@@ -26,16 +27,59 @@ class Gallery {
                       $folderName .= $pv.'/';
                     }
 
+                $imagePath = $this->path . '/' . $image;
+
+                $exifDate = @exif_read_data($imagePath, 0, true)['IFD0']['DateTime'];
+                $sort[$index] = $exifDate;
                 $images[$index] = array( //make an array of images and corresponding miniatures
-                    'full' => $this->path . '/' . $image,
-		    'thumb' => 'thmbnailer.php?f='.$this->path . '&i=' . $image,
-		    'folder' => $folderName,
-		    'file' => $image
+                    'full' => $imagePath,
+		            'thumb' => 'thmbnailer.php?f='.$this->path . '&i=' . $image,
+		            'folder' => $folderName,
+		            'file' => $image,
+                    'exifDate' => $exifDate
                     );
             }
            
         }
+        // Sort per exif date
+        array_multisort($sort, SORT_DESC, $images);
+
         return (count($images)) ? $images : false;   
-    }   
+    }
+
+    public static function resizeImageImagick($thumbDir, $basedir, $folder, $imageFile, $width, $height, $filterType, $blur, $bestFit, $cropZoom)
+    {
+        $imagePath = $basedir.$folder.$imageFile;
+
+        //The blur factor where > 1 is blurry, < 1 is sharp.
+        $imagick = new \Imagick(realpath($imagePath));
+        $imagick->setCompressionQuality(60);
+        $imagick->resizeImage($width, $height, $filterType, $blur, $bestFit);
+
+        $cropWidth = $imagick->getImageWidth();
+        $cropHeight = $imagick->getImageHeight();
+
+        if ($cropZoom) {
+            $newWidth = $cropWidth / 2;
+            $newHeight = $cropHeight / 2;
+
+            $imagick->cropimage(
+                $newWidth,
+                $newHeight,
+                ($cropWidth - $newWidth) / 2,
+                ($cropHeight - $newHeight) / 2
+            );
+
+            $imagick->scaleimage(
+                $imagick->getImageWidth() * 4,
+                $imagick->getImageHeight() * 4
+            );
+        }
+
+        $imagick->writeimage($thumbDir.$folder.$imageFile);
+
+        header("Content-Type: image/jpg");
+        echo $imagick->getImageBlob();
+    }
 }
 

@@ -14,11 +14,6 @@
 		} catch (Exception $e) {
 			$img_caption = '';
 		}
-			try {
-		    $img_date = @exif_read_data($image['full'], 0, true)['IFD0']['DateTime'];
-			} catch (Exception $e) {
-				$img_date = '';
-			}
 
 		    $row_counter++;
 		    ?>
@@ -29,9 +24,12 @@
             src="<?= $image['thumb']; ?>" width="100%"></a>
 		    	<br />
 			      	<div class="picture_card_description">
-				<a href="unlink.php?f=<?=$image['folder']?>&i=<?=$image['file']?>" target="frame" title="delete" style="color:darkred">[x]</a>
-			    	<span class="glyphicon glyphicon-time"></span>&nbsp;<span 
-            class="picture_card_description_date"><?php echo $img_date; ?></span>
+
+						<a href="unlink.php?f=<?=$image['folder']?>&i=<?=$image['file']?>" target="frame" title="delete" style="color:darkred">
+							<span class="glyphicon glyphicon-remove-circle"></span></a>
+
+			    		<span class="glyphicon glyphicon-time"></span>&nbsp;
+						<span class="picture_card_description_date"><?php echo $image['exifDate']; ?></span>
 			    	<br />
 			    
 				    <?php if ($img_caption == $img_no_caption) {
