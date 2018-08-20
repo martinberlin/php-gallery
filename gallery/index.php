@@ -4,7 +4,6 @@ include 'head.template.php'; ?>
 <body>
 <main role='main'><div class='container-fluid'>
   <div class="row">
- 	<h2 style="text-align: center"><?=$page_title?></h2>
 
 	<?php
 

@@ -1,0 +1,6 @@
+{
+    "require": {
+        "bordercloud/tether": "1.1.*",
+        "twbs/bootstrap": "4.1.3"
+    }
+}

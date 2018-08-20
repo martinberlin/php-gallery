@@ -5,7 +5,6 @@
 
 <main role='main'><div class='container-fluid'>
   <div class="row">
- 	<div style="text-align: center"><h2>/<?=$getFolder?></h2></div>
 	<?php if($images): ?>
 
 	    <?php foreach($images as $image):
@@ -27,9 +26,11 @@
 
 						<a href="unlink.php?f=<?=$image['folder']?>&i=<?=$image['file']?>" target="frame" title="delete" style="color:darkred">
 							<span class="glyphicon glyphicon-remove-circle"></span></a>
+						<a href="<?= $image['full']; ?>"><span class="glyphicon glyphicon-download"></span></a>
 
 			    		<span class="glyphicon glyphicon-time"></span>&nbsp;
-						<span class="picture_card_description_date"><?php echo $image['exifDate']; ?></span>
+						<span class="picture_card_description_date"><?= $image['exifDate']; ?></span>
+
 			    	<br />
 			    
 				    <?php if ($img_caption == $img_no_caption) {
@@ -66,5 +67,6 @@
 	<iframe name="frame" class="col-md-10"></iframe>
 </div>
 </main>
+
 </body>
 </html>
