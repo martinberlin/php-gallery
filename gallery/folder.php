@@ -1,11 +1,18 @@
 <?php require 'folder-gallery.php'; ?>
 <?php include 'head.template.php'; ?>
 <body>
-<?php include 'navigation.template.php'; ?>
+<?php include 'navigation.template.php';
+$totalImages = ($images) ? count($images) : 0;
+?>
 
 <main role='main'><div class='container-fluid'>
+		<?=$totalImages ?> images
+
   <div class="row">
-	<?php if($images): ?>
+	<?php if($images):
+
+		?>
+
 
 	    <?php foreach($images as $image):
 	    try {
@@ -24,11 +31,11 @@
 		    	<br />
 			      	<div class="picture_card_description">
 
-						<a href="unlink.php?f=<?=$image['folder']?>&i=<?=$image['file']?>" target="frame" title="delete" style="color:darkred">
+						<a href="unlink.php?f=<?=$image['folder']?>&i=<?=$image['file']?>" target="frame" title="Delete" style="color:darkred">
 							<span class="glyphicon glyphicon-remove-circle"></span></a>
-						<a href="<?= $image['full']; ?>"><span class="glyphicon glyphicon-download"></span></a>
+						<a href="<?= $image['full']; ?>"><span class="glyphicon glyphicon-download" title="Download"></span></a>
 
-			    		<span class="glyphicon glyphicon-time"></span>&nbsp;
+			    		<span class="glyphicon glyphicon-time" title="Jpeg timestamp" ></span>&nbsp;
 						<span class="picture_card_description_date"><?= $image['exifDate']; ?></span>
 
 			    	<br />

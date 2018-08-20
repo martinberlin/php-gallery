@@ -1,23 +1,29 @@
 <?php
-$base = "./";
+$directoryBase = "camera-uploads/";
+$uploadBase = "uploads/";
+
 if ($_FILES["upload"]["error"] > 0)
 {
     throw new UploadException($_FILES['upload']['error']);
-}
-else {
+} else {
     $fileName = $_FILES["upload"]["name"];
     $explodeFile = explode(".", $fileName);
     $extension = end($explodeFile);
-    $directoryDate = $base . date('Y-m-d') . "/";
+    $directoryDate = $rootBase . date('Y-m-d') . "/";
     $uploadedName = date('l-H-i-s').".".$extension;
-// Check if directory exists if not create it
 
+// Check if directory exists if not create it
         if (!is_dir($directoryDate)) {
             mkdir($directoryDate);
         }
-        move_uploaded_file($_FILES["upload"]["tmp_name"], $directoryDate.$uploadedName);
-        echo "<img src=\"".$directoryDate.$uploadedName."\">";
+        $uploaded = move_uploaded_file($_FILES["upload"]["tmp_name"], $directoryDate.$uploadedName);
 
+    if ($uploaded) {
+        $imageLink = "http://".$_SERVER['HTTP_HOST']."/".$directoryBase.$directoryDate.$uploadedName;
+    } else {
+        $imageLink = "http://".$_SERVER['HTTP_HOST']."/".$directoryBase."gallery/assets/error-uploading.png";
+    }
+    echo $imageLink;
 }
 
 
