@@ -9,7 +9,7 @@ if ($_FILES["upload"]["error"] > 0)
     $fileName = $_FILES["upload"]["name"];
     $explodeFile = explode(".", $fileName);
     $extension = end($explodeFile);
-    $directoryDate = $rootBase . date('Y-m-d') . "/";
+    $directoryDate = $uploadBase . date('Y-m-d') . "/";
     $uploadedName = date('l-H-i-s').".".$extension;
 
 // Check if directory exists if not create it
