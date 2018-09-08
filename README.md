@@ -19,7 +19,8 @@ In the spirit of respecting the original Bootstrap 4 layout I left everything as
  Upload / Delete check your IP address to enable Admin rights. This is not using any User authentication or database.
  
  Make sure to give 0755 permissions and chown the uploads and thumbs directories to your Web server uses:
-
+     mkdir uploads
+     mkdir thumbs
      chmod 0755 uploads/
      chmod 0755 thumbs/
      sudo chown www-data:www-data uploads/
@@ -28,6 +29,11 @@ In the spirit of respecting the original Bootstrap 4 layout I left everything as
 PHP is supposed to be able to create directories and files there.
 Thumbnail file validity is per default 10 days so if you happen to overwrite an image this is the time that the old thumbnail will be cached. Add any additional logic since it's left very raw with the intention not to overengineer the script.
 And that's all ! Don't expect Flickr, the idea was to keep it as simple and uncomplicated as possible.
+
+### Requirements
+
+Php 5+
+php-imagick package installed: It uses http://php.net/manual/en/book.imagick.php to generate the thumbnails
 
 
 #### Questions / Support 
