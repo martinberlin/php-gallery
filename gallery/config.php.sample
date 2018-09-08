@@ -1,5 +1,5 @@
 <?php
-
+// Rename this to config.php 
 // Directory where the pictures are uploaded
 $basedir    = "../uploads/";
 $thumbBaseDir    = "../thumbs/";
