@@ -2,21 +2,30 @@
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="index.php"><?=isset($getFolder) ? $getFolder : '' ?></a>
+      <?php
+      $folders = explode('/', $getFolder);
+      if (count($folders) === 1) {  // Current path is not in a subdirectory, go back to root
+        ?>
+       <a class="navbar-brand" href="index.php"><span class="glyphicon glyphicon-home"></span> Main</a>
+      <?php
+      } else {
+        $path = "";
+        foreach ($folders as $folder) {
+          $path .= $folder;
+      ?>
+          <a class="navbar-brand" href="folder.php?f=<?=$path ?>"><span class="glyphicon glyphicon-folder-open"></span> <?=$folder ?></a>
+      <?php
+          $path .= '/';
+        }
+      }
+      ?>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      
+    <a href="#" class="navbar-toggle" data-toggle="dropdown" data-target="#credits">Credits<span class="caret"></span></a>
+    <div class="collapse navbar-collapse text-right" id="credits">
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Credits<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><a href="https://fasani.de">Designed by fasani.de</a></li>
             <li class="divider"></li>
