@@ -6,15 +6,14 @@ $totalImages = ($images) ? count($images) : 0;
 ?>
 
 <main role='main'><div class='container-fluid'>
-		<?=$totalImages ?> images
+		<? if ($totalImages) {
+			echo $totalImages." images";
+		} ?>
 
   <div class="row">
 	<?php if($images):
 
-		?>
-
-
-	    <?php foreach($images as $image):
+       foreach($images as $image):
 	    try {
 			$img_caption = @exif_read_data($image['full'], 0, true)['COMPUTED']['UserComment'];
 		} catch (Exception $e) {
@@ -55,8 +54,26 @@ $totalImages = ($images) ? count($images) : 0;
 		    endforeach; ?>
 	    
 		<?php else: ?>
-		<div id="no_images"><?php echo $no_images_warning; ?></div>
+	  <div class="col-md-12">
+		<div id="no_images">
+			<?php
+			$location = $basedir.$getFolder;
+			$dir = new DirectoryIterator($location);
+			if (iterator_count($dir)) {
+				echo "<h1>Listing $getFolder directory:</h1>";
+				foreach ($dir as $fileinfo) {
 
+					if ($fileinfo->isDir() && !$fileinfo->isDot()) {
+						$subDir = $fileinfo->getFilename();
+						echo "<h2><a href='folder.php?f={$getFolder}/{$subDir}'>" . $subDir . "</a></h2>";
+					}
+				}
+			} else {
+			   echo $no_images_warning;
+			}
+			?>
+		</div>
+	  </div>
 	<?php endif; ?>
 	
   </div>
@@ -71,9 +88,15 @@ $totalImages = ($images) ? count($images) : 0;
 		</div>
 	</form>
 	</div>
-	<iframe name="frame" class="col-md-10"></iframe>
+	<iframe name="frame" class="col-md-12" onload="resizeIframe(this)"></iframe>
 </div>
 </main>
 
+<script>
+	function resizeIframe(obj) {
+		console.log("Resizing frame to height: "+obj.contentWindow.document.body.scrollHeight);
+		obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+	}
+</script>
 </body>
 </html>
