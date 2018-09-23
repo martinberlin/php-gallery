@@ -19,6 +19,7 @@ In the spirit of respecting the original Bootstrap 4 layout I left everything as
  Upload / Delete check your IP address to enable Admin rights. This is not using any User authentication or database.
  
  Make sure to give 0755 permissions and chown the uploads and thumbs directories to your Web server uses:
+ 
      mkdir uploads
      mkdir thumbs
      chmod 0755 uploads/
