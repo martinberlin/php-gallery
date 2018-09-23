@@ -27,8 +27,11 @@ In the spirit of respecting the original Bootstrap 4 layout I left everything as
      sudo chown www-data:www-data thumbs/
 
 PHP is supposed to be able to create directories and files there.
+Change www-data to whatever user it is your apache or nginx server.
+
 Thumbnail file validity is per default 10 days so if you happen to overwrite an image this is the time that the old thumbnail will be cached. Add any additional logic since it's left very raw with the intention not to overengineer the script.
 And that's all ! Don't expect Flickr, the idea was to keep it as simple and uncomplicated as possible.
+NOTE: In order to see something make sure to give this 2 folders the permissions to the apache user to write images so the thumbnails can be generated. Create some "Test" folder in uploads and copy some of your jpg images. 
 
 ### Requirements
 
