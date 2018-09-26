@@ -9,8 +9,7 @@
 
     <link href="vendor/bordercloud/tether/dist/css/tether.min.css" rel="stylesheet">
     <link href="vendor/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.4/css/bootstrap.min.css" rel="stylesheet">-->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.10.0/css/lightbox.min.css" rel="stylesheet" />
+    <link href="assets/colorbox.css" rel="stylesheet">
     <link href="assets/bootstrap-glyphicons.css" rel="stylesheet">
 <style>
   .glyphicon {
@@ -22,7 +21,8 @@
     <!--    <link rel="stylesheet" href="css/style.css">-->
  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.10.0/js/lightbox.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.10.0/js/lightbox.min.js"></script> -->
+      <script src="vendor/kraksoft/colorbox/jquery.colorbox-min.js"></script>
     <script src="vendor/bordercloud/tether/dist/js/tether.min.js"></script>
     <script src="vendor/twbs/bootstrap/dist/js/bootstrap.min.js"></script>
 

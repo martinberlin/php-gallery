@@ -20,16 +20,17 @@ $totalImages = ($images) ? count($images) : 0;
 			$img_caption = '';
 		}
 
+		//data-lightbox="roadtrip" Removed
 		    $row_counter++;
 		    ?>
 		    <div class="col-md-<?php echo $col_md_x; ?>">
-		      <div class="picture_card">
-		    	<a href="<?php echo $image['full']; ?>" data-lightbox="roadtrip" 
+
+		    	<a class="gallery" href="<?php echo $image['full']; ?>"
             data-title="<?php echo $img_caption; ?>"><img title="<?php echo $img_caption; ?>" 
             src="<?= $image['thumb']; ?>" width="100%"></a>
 		    	<br />
-			      	<div class="picture_card_description">
 
+			      	<div class="picture_card_description">
 						<a href="unlink.php?f=<?=$image['folder']?>&i=<?=$image['file']?>" target="frame" title="Delete" style="color:darkred">
 							<span class="glyphicon glyphicon-remove-circle"></span></a>
 						<a href="<?= $image['full']; ?>"><span class="glyphicon glyphicon-download" title="Download"></span></a>
@@ -45,7 +46,7 @@ $totalImages = ($images) ? count($images) : 0;
 				      echo $img_caption;
 				    }?>
 			      	</div>
-		      </div>
+
 		    </div>
 		    <?php
 		    if ($row_counter % $row_x == 0) {
@@ -97,6 +98,10 @@ $totalImages = ($images) ? count($images) : 0;
 		console.log("Resizing frame to height: "+obj.contentWindow.document.body.scrollHeight);
 		obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
 	}
+
+    $(document).ready(function() {
+        $(".gallery").colorbox({rel: 'gallery', slideshow: true});
+    });
 </script>
 </body>
 </html>
