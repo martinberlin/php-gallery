@@ -28,9 +28,10 @@ $totalImages = ($images) ? count($images) : 0;
 		    	<a class="gallery" href="<?php echo $image['full']; ?>"
             data-title="<?php echo $img_caption; ?>"><img title="<?php echo $img_caption; ?>" 
             src="<?= $image['thumb']; ?>" width="100%"></a>
-		    	<br />
 
-			      	<div class="picture_card_description">
+                <br />
+
+			      	<div>
 						<a href="unlink.php?f=<?=$image['folder']?>&i=<?=$image['file']?>" target="frame" title="Delete" style="color:darkred">
 							<span class="glyphicon glyphicon-remove-circle"></span></a>
 						<a href="<?= $image['full']; ?>"><span class="glyphicon glyphicon-download" title="Download"></span></a>
@@ -100,7 +101,7 @@ $totalImages = ($images) ? count($images) : 0;
 	}
 
     $(document).ready(function() {
-        $(".gallery").colorbox({rel: 'gallery', slideshow: true});
+        $(".gallery").colorbox({rel: 'gallery', slideshow: true, opacity:0.95});
     });
 </script>
 </body>
