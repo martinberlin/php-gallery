@@ -9,10 +9,17 @@ include 'head.template.php'; ?>
 
 	$row_counter = 1;
 
-	$dir = new DirectoryIterator($basedir);
+	$dirIterator = new DirectoryIterator($basedir);
+	foreach ($dirIterator as $fileinfo) {
+		$sorted_keys[$fileinfo->getMTime()] = $fileinfo->key();
+	}
+	krsort($sorted_keys);
 
-
-	foreach ($dir as $fileinfo) {
+	/* Iterate `DirectoryIterator` as a sorted array */
+	foreach ( $sorted_keys as $key )
+	{
+		$dirIterator->seek($key);
+		$fileinfo = $dirIterator->current();
 
 		if ($fileinfo->isDir() && !$fileinfo->isDot()) {
 
