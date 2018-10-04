@@ -60,10 +60,20 @@ $totalImages = ($images) ? count($images) : 0;
 		<div id="no_images">
 			<?php
 			$location = $basedir.$getFolder;
-			$dir = new DirectoryIterator($location);
-			if (iterator_count($dir)) {
+
+			$dirIterator = new DirectoryIterator($location);
+			foreach ($dirIterator as $fileinfo) {
+				$sorted_keys[$fileinfo->getMTime()] = $fileinfo->key();
+			}
+			krsort($sorted_keys);
+
+			if (iterator_count($dirIterator)) {
 				echo "<h1>Listing $getFolder directory:</h1>";
-				foreach ($dir as $fileinfo) {
+				/* Iterate `DirectoryIterator` as a sorted array */
+				foreach ( $sorted_keys as $key )
+				{
+					$dirIterator->seek($key);
+					$fileinfo = $dirIterator->current();
 
 					if ($fileinfo->isDir() && !$fileinfo->isDot()) {
 						$subDir = $fileinfo->getFilename();
