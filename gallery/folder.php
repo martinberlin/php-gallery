@@ -111,7 +111,12 @@ $totalImages = ($images) ? count($images) : 0;
 	}
 
     $(document).ready(function() {
-        $(".gallery").colorbox({rel: 'gallery', slideshow: true, opacity:0.95});
+        $(".gallery").colorbox({
+			rel: 'gallery',
+			slideshow: true,
+			slideshowAuto: false,
+			slideshowSpeed: 500,
+			opacity:0.95});
     });
 </script>
 </body>
