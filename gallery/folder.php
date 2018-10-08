@@ -2,6 +2,11 @@
 <?php include 'head.template.php'; ?>
 <body>
 <?php include 'navigation.template.php';
+function humanFilesize($bytes, $decimals = 2) {
+	$sz = 'BKMGTP';
+	$factor = floor((strlen($bytes) - 1) / 3);
+	return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
+}
 $totalImages = ($images) ? count($images) : 0;
 ?>
 
@@ -15,9 +20,16 @@ $totalImages = ($images) ? count($images) : 0;
 
        foreach($images as $image):
 	    try {
-			$img_caption = @exif_read_data($image['full'], 0, true)['COMPUTED']['UserComment'];
+			$imgInfo = getimagesize($image['full']);
+			$mime = explode('/', $imgInfo['mime']);
+			$img['w'] = $imgInfo[0];
+			$img['h'] = $imgInfo[1];
+			$img['m'] = $mime[1];
+			$img['s'] = humanFilesize(filesize($image['full']));
+
+			$img['c'] = @exif_read_data($image['full'], 0, true)['COMPUTED']['UserComment'];
 		} catch (Exception $e) {
-			$img_caption = '';
+			$img['c'] = '';
 		}
 
 		//data-lightbox="roadtrip" Removed
@@ -38,14 +50,11 @@ $totalImages = ($images) ? count($images) : 0;
 
 			    		<span class="glyphicon glyphicon-time" title="Jpeg timestamp" ></span>&nbsp;
 						<span class="picture_card_description_date"><?= $image['exifDate']; ?></span>
+						<small><?=$img['w'].'x'.$img['h'].' '.$img['m'].' '.$img['s'] ?><br>
+							<?= $img['c'] ?></small>
 
-			    	<br />
 			    
-				    <?php if ($img_caption == $img_no_caption) {
-				      echo "";
-				    } else {
-				      echo $img_caption;
-				    }?>
+
 			      	</div>
 
 		    </div>
