@@ -38,8 +38,8 @@ $totalImages = ($images) ? count($images) : 0;
 		    <div class="col-md-<?php echo $col_md_x; ?>">
 
 		    	<a class="gallery" href="<?php echo $image['full']; ?>"
-            data-title="<?php echo $img_caption; ?>"><img title="<?php echo $img_caption; ?>" 
-            src="<?= $image['thumb']; ?>" width="100%"></a>
+            data-title="<?=$image['file'] ?>">
+					<img src="<?= $image['thumb']; ?>" width="100%"></a>
 
                 <br />
 
