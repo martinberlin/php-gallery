@@ -32,7 +32,6 @@ $totalImages = ($images) ? count($images) : 0;
 			$img['c'] = '';
 		}
 
-		//data-lightbox="roadtrip" Removed
 		    $row_counter++;
 		    ?>
 		    <div class="col-md-<?php echo $col_md_x; ?>">
@@ -44,7 +43,8 @@ $totalImages = ($images) ? count($images) : 0;
                 <br />
 
 			      	<div>
-						<a href="unlink.php?f=<?=$image['folder']?>&i=<?=$image['file']?>" target="frame" title="Delete" style="color:darkred">
+						<a href="unlink.php?f=<?=$image['folder']?>&i=<?=$image['file']?>"
+						    target="frame" title="Delete" style="color:darkred" onclick="$(this).parent().parent().invisible()">
 							<span class="glyphicon glyphicon-remove-circle"></span></a>
 						<a href="<?= $image['full']; ?>"><span class="glyphicon glyphicon-download" title="Download"></span></a>
 
@@ -127,6 +127,13 @@ $totalImages = ($images) ? count($images) : 0;
 			slideshowSpeed: 500,
 			opacity:0.95});
     });
+	jQuery.fn.visible = function() {
+		return this.css('visibility', 'visible');
+	};
+
+	jQuery.fn.invisible = function() {
+		return this.css('visibility', 'hidden');
+	};
 </script>
 </body>
 </html>
