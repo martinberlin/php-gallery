@@ -15,6 +15,9 @@ if (in_array($_SERVER['REMOTE_ADDR'], $adminRightIps)) {
 
    if (unlink($deleteFile)) {
 	   echo "File $getFile was deleted";
+       // Delete also thumbnail
+       $thumb = $thumbBaseDir.$getFolder.$getFile;
+       unlink($thumb);
    } else {
 	   echo "error deleting file";
    }
