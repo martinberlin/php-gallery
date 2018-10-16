@@ -24,18 +24,19 @@ include 'head.template.php'; ?>
 		if ($fileinfo->isDir() && !$fileinfo->isDot()) {
 
 			$images = scandir($basedir.$fileinfo->getFilename());
-			$imageUrl = $thumbBaseDir.$fileinfo->getFilename().'/'.$images[2];
-			// First and second have . .. in array
+			$imageUrl = "thmbnailer.php?f=".$basedir.$fileinfo->getFilename()."&i=".$images[2];
 			$row_counter++;
-			$explodeThumb = explode(".", $imageUrl);
+			// Check if is an image or a folder
+			$isImage = strstr($images[2], '.');
 			?>
 			<div class="col-md-<?php echo $col_md_x; ?>">
-				<?php if (count($explodeThumb)>3) { ?>
+				<?php if ($isImage) { ?>
 				<div class="picture_card">
 					<h3><a href="folder.php?f=<?=$fileinfo->getFilename() ?>"><?=$fileinfo->getFilename() ?></a></h3>
 					<a href="folder.php?f=<?=$fileinfo->getFilename() ?>"
 					   data-title="<?php echo $fileinfo->getFilename(); ?>">
-                        <img title="<?=$fileinfo->getFilename() ?>" src="<?=$imageUrl; ?>"
+
+						<img title="<?=$fileinfo->getFilename() ?>" src="<?=$imageUrl; ?>"
 							 width="80%"></a>
 				</div>
 				<?php } else { ?>
