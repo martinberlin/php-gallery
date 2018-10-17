@@ -1,6 +1,6 @@
 <?php
 require "config.php";
-include 'head.template.php'; ?>
+include 'views/head.template.php'; ?>
 <body>
 <main role='main'><div class='container-fluid'>
   <div class="row">

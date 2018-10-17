@@ -1,7 +1,7 @@
 <?php require 'folder-gallery.php'; ?>
-<?php include 'head.template.php'; ?>
+<?php include 'views/head.template.php'; ?>
 <body>
-<?php include 'navigation.template.php';
+<?php include 'views/navigation.template.php';
 function humanFilesize($bytes, $decimals = 2) {
 	$sz = 'BKMGTP';
 	$factor = floor((strlen($bytes) - 1) / 3);
