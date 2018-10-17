@@ -24,7 +24,12 @@ include 'views/head.template.php'; ?>
 		if ($fileinfo->isDir() && !$fileinfo->isDot()) {
 
 			$images = scandir($basedir.$fileinfo->getFilename());
-			$imageUrl = "thmbnailer.php?f=".$basedir.$fileinfo->getFilename()."&i=".$images[2];
+			//Discard . .. and .zip extensions
+			foreach ($images as $image) {
+				$analize = explode('.', $image);
+				if (isset($analize[1]) && in_array($analize[1], $imageAllowedExtensions)) break;
+			}
+			$imageUrl = "thmbnailer.php?f=".$basedir.$fileinfo->getFilename()."&i=".$image;
 			$row_counter++;
 			// Check if is an image or a folder
 			$isImage = strstr($images[2], '.');

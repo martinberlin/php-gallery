@@ -6,14 +6,14 @@
       $folders = explode('/', $getFolder);
       if (count($folders) === 1) {  // Current path is not in a subdirectory, go back to root
         ?>
-       <a class="navbar-brand" href="../index.php"><span class="glyphicon glyphicon-home"></span> Main</a>
+       <a class="navbar-brand" href="index.php"><span class="glyphicon glyphicon-home"></span> Main</a>
       <?php
       } else {
         $path = "";
         foreach ($folders as $folder) {
           $path .= $folder;
       ?>
-          <a class="navbar-brand" href="../folder.php?f=<?=$path ?>"><span class="glyphicon glyphicon-folder-open"></span> <?=$folder ?></a>
+          <a class="navbar-brand" href="folder.php?f=<?=$path ?>"><span class="glyphicon glyphicon-folder-open"></span> <?=$folder ?></a>
       <?php
           $path .= '/';
         }

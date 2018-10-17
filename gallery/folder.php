@@ -99,15 +99,25 @@ $totalImages = ($images) ? count($images) : 0;
 	
   </div>
 	<div class="row">
-	<form enctype="multipart/form-data" action="upload.php"  target="frame" method="POST">
-		<input type="hidden" name="MAX_FILE_SIZE" value="10000000" />
-		<div class="col-md-12" id="image" lang="en">
+
+		<div class="col-md-6">
+			<form enctype="multipart/form-data" action="upload.php" target="frame" method="POST">
+				<input type="hidden" name="MAX_FILE_SIZE" value="10000000" />
 			Folder: <input name="folder" type="text" value="<?=$getFolder?>">
 			<input type="file" name="image" id="uploadImage" aria-describedby="fileHelp">
 
-			<input type="submit" value="Upload" class="btn btn-dark" value="Upload" />
+			<input type="submit" value="Upload" class="btn btn-dark" />
+			</form>
 		</div>
-	</form>
+		<div class="col-md-6">
+			<form action="zip-folder.php" target="frame" method="POST">
+				<input type="hidden" name="f" value="<?=$getFolder?>" />
+				<button type="submit" class="btn btn-bd-download" id="zip">
+					<span class="glyphicon glyphicon-compressed"></span> ZIP this Folder
+				</button>
+			</form>
+		</div>
+
 	</div>
 	<iframe name="frame" class="col-md-12" onload="resizeIframe(this)"></iframe>
 </div>

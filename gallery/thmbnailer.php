@@ -23,7 +23,6 @@ if (!is_dir($thumbBaseDir.$folderName)) {
     mkdir($thumbBaseDir.$folderName, 0755, true);
 }
 
-
 if(file_exists($thumb) && filectime($thumb) > time() - $thumbCacheValidity) {
     // cache is valid
     $file = file_get_contents($thumb);
