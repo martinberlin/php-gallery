@@ -45,6 +45,11 @@ class UploadException extends Exception
 }
 
 class UploadHelper {
+    /**
+     * @param $message
+     * @param $thumb
+     * @return bool|string
+     */
     static function writeXbmMessage($message, $thumb) {
         $im = imagecreatetruecolor($thumb['width'], $thumb['height']);
         $textColor = imagecolorallocate($im, 255, 255, 255);
@@ -52,5 +57,23 @@ class UploadHelper {
         imagexbm($im, 'xbm/error.xbm');
         $xbmContent = file_get_contents('xbm/error.xbm');
         return $xbmContent;
+    }
+
+    /**
+     * Parse XBM image and extract the pixels into an array
+     * @param $xbmBlob
+     * @return array
+     */
+    static function parseXbmToArray($xbmBlob) {
+        $pattern = "#{(.*?)}#s";
+        preg_match($pattern, $xbmBlob, $matches);
+        $explodedPixels = explode(",", $matches[1]);
+        array_pop($explodedPixels);
+        // Iterate and cleanup whitespaces and \n
+        $cleanPixels = array();
+        foreach ($explodedPixels as $pixel) {
+            $cleanPixels[] = preg_replace('/\s+/', '', $pixel);
+        }
+        return $cleanPixels;
     }
 }

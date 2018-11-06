@@ -33,8 +33,7 @@ if ($_FILES["upload"]["error"] > 0)
 $imageObj = array();
 if ($uploaded == false) {
     $xbm = UploadHelper::writeXbmMessage('Error uploading image', $thumb);
-    // TODO Parse xbm
-    $imageObj['xbm'] = $xbm;
+    $imageObj['xbm'] = UploadHelper::parseXbmToArray($xbm);
     $imageObj['url'] = "http://".$_SERVER['HTTP_HOST']."/".$directoryBase."gallery/assets/error-uploading.png";
     exit (json_encode($imageObj));
 }
@@ -51,8 +50,7 @@ $im->quantizeImage(8,                        // Number of colors  8  (8/16 for d
 } catch (ImagickException $e)
 {
     $xbm = UploadHelper::writeXbmMessage('Imagemagick '.$e->getMessage(), $thumb);
-    // TODO Parse xbm
-    $imageObj['xbm'] = $xbm;
+    $imageObj['xbm'] = UploadHelper::parseXbmToArray($xbm);
     $imageObj['url'] = "http://".$_SERVER['HTTP_HOST']."/".$directoryBase."gallery/assets/error-uploading.png";
     exit (json_encode($imageObj));
 }
@@ -63,10 +61,10 @@ $im->writeimage("xbm/test.xbm");
 // Populate imageObj before json encoding
 // TODO Process imageBlob and parse xbm into json
 $xbm = $im->getImageBlob();
-$imageObj['xbm'] = $xbm;
+$cleanPixels = UploadHelper::parseXbmToArray($xbm);
 
+$imageObj['xbm'] = $cleanPixels;
 $imageObj['thumb_width'] = $im->getImageWidth();
 $imageObj['thumb_height'] = $im->getImageHeight();
-
 $imageObj['url'] = "http://".$_SERVER['HTTP_HOST']."/".$directoryBase.$directoryDate.$uploadedName;;
 echo json_encode($imageObj);
