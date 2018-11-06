@@ -43,3 +43,14 @@ class UploadException extends Exception
         return $message;
     }
 }
+
+class UploadHelper {
+    static function writeXbmMessage($message, $thumb) {
+        $im = imagecreatetruecolor($thumb['width'], $thumb['height']);
+        $textColor = imagecolorallocate($im, 255, 255, 255);
+        imagestring($im, 1, 5, 5,  $message, $textColor);
+        imagexbm($im, 'xbm/error.xbm');
+        $xbmContent = file_get_contents('xbm/error.xbm');
+        return $xbmContent;
+    }
+}

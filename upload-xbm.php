@@ -5,8 +5,8 @@ $clientFolder = "{$getFolder}/";
 
 // CONFIG
 $thumb = array();
-$thumb['width']  = 128;
-$thumb['height'] = 64;
+$thumb['width']  = 128; // Thumbnail max. width
+$thumb['height'] = 64;  // Thumbnail max. height
 $directoryBase = "camera-uploads/";
 $uploadBase = "uploads/".$clientFolder;
 
@@ -30,43 +30,43 @@ if ($_FILES["upload"]["error"] > 0)
 
 }
 
-if ($uploaded == false) {
-    $imageLink = "http://".$_SERVER['HTTP_HOST']."/".$directoryBase."gallery/assets/error-uploading.png";
-    exit($imageLink);
-}
 $imageObj = array();
+if ($uploaded == false) {
+    $xbm = UploadHelper::writeXbmMessage('Error uploading image', $thumb);
+    // TODO Parse xbm
+    $imageObj['xbm'] = $xbm;
+    $imageObj['url'] = "http://".$_SERVER['HTTP_HOST']."/".$directoryBase."gallery/assets/error-uploading.png";
+    exit (json_encode($imageObj));
+}
 
-
-
-// Create a blank image and add some text
-//$im = imagecreatetruecolor(128, 64);
-//$im = imagecreatefromjpeg('xbm/3.jpg');
-$im = new \Imagick(realpath($uploadedFile));
+try {
+$im = new Imagick(realpath($uploadedFile));
 $im->setCompressionQuality(99);
-$im->resizeImage($thumb['width'], $thumb['height'], Imagick::FILTER_LANCZOS, 1, 0);
-
+$im->resizeImage($thumb['width'], $thumb['height'], Imagick::FILTER_LANCZOS, 1, 1);
 $im->quantizeImage(8,                        // Number of colors  8  (8/16 for depth 4)
     Imagick::COLORSPACE_GRAY, // Colorspace
     1,                        // Depth tree  16
     TRUE,                     // Dither
     FALSE);
+} catch (ImagickException $e)
+{
+    $xbm = UploadHelper::writeXbmMessage('Imagemagick '.$e->getMessage(), $thumb);
+    // TODO Parse xbm
+    $imageObj['xbm'] = $xbm;
+    $imageObj['url'] = "http://".$_SERVER['HTTP_HOST']."/".$directoryBase."gallery/assets/error-uploading.png";
+    exit (json_encode($imageObj));
+}
 
-/** Alternative:
-imagefilter($img, IMG_FILTER_GRAYSCALE); //first, convert to grayscale
-imagefilter($img, IMG_FILTER_CONTRAST, -255); //then, apply a full contrast
-imagejpeg($img);
- */
 // Save the image
 $im->setImageFormat('xbm'); //xbm
 $im->writeimage("xbm/test.xbm");
 // Populate imageObj before json encoding
-// TODO Process imageBlob
-$imageObj['xbm'] = $im->getImageBlob();
+// TODO Process imageBlob and parse xbm into json
+$xbm = $im->getImageBlob();
+$imageObj['xbm'] = $xbm;
 
-$imageObj['thumb'] = array(
-    'width' => $thumb['width'],
-    'height' => $thumb['height']
-    );
+$imageObj['thumb_width'] = $im->getImageWidth();
+$imageObj['thumb_height'] = $im->getImageHeight();
 
-$imageObj['url'] = "http://".$_SERVER['HTTP_HOST']."/".$directoryBase."gallery/assets/error-uploading.png";
+$imageObj['url'] = "http://".$_SERVER['HTTP_HOST']."/".$directoryBase.$directoryDate.$uploadedName;;
 echo json_encode($imageObj);
