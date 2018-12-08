@@ -1,12 +1,13 @@
 <?php
 require("uploadClass.php");
 $getFolder = isset($_GET['f']) ? $_GET['f'] : 'no_folder';
+$getThumb = isset($_GET['nothumb']) ? false : true;
 $clientFolder = "{$getFolder}/";
 
 // CONFIG
 $thumb = array();
 $thumb['width']  = 128; // Thumbnail max. width
-$thumb['height'] = 64;  // Thumbnail max. height
+$thumb['height'] = 64;  // 64  Thumbnail max. height
 $directoryBase = "camera-uploads/";
 $uploadBase = "uploads/".$clientFolder;
 
@@ -63,8 +64,11 @@ $im->writeimage("xbm/test.xbm");
 $xbm = $im->getImageBlob();
 $cleanPixels = UploadHelper::parseXbmToArray($xbm);
 
-$imageObj['xbm'] = $cleanPixels;
-$imageObj['thumb_width'] = $im->getImageWidth();
-$imageObj['thumb_height'] = $im->getImageHeight();
-$imageObj['url'] = "http://".$_SERVER['HTTP_HOST']."/".$directoryBase.$directoryDate.$uploadedName;;
+if ($getThumb) {
+  $imageObj['xbm'] = $cleanPixels;
+  $imageObj['thumb_width'] = $im->getImageWidth();
+  $imageObj['thumb_height'] = $im->getImageHeight();
+}
+$imageObj['url'] = "http://".$_SERVER['HTTP_HOST']."/".$directoryBase.$directoryDate.$uploadedName;
+$imageObj['hash']= md5_file($uploadedFile);
 echo json_encode($imageObj);
