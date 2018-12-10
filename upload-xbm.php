@@ -1,7 +1,7 @@
 <?php
 require("uploadClass.php");
 $getFolder = isset($_GET['f']) ? $_GET['f'] : 'no_folder';
-$getThumb = isset($_GET['nothumb']) ? false : true;
+$getXbmThumb = (isset($_GET['thumb']) && $_GET['thumb'] == 0) ? false : true;
 $clientFolder = "{$getFolder}/";
 
 // CONFIG
@@ -64,7 +64,7 @@ $im->writeimage("xbm/test.xbm");
 $xbm = $im->getImageBlob();
 $cleanPixels = UploadHelper::parseXbmToArray($xbm);
 
-if ($getThumb) {
+if ($getXbmThumb) {
   $imageObj['xbm'] = $cleanPixels;
   $imageObj['thumb_width'] = $im->getImageWidth();
   $imageObj['thumb_height'] = $im->getImageHeight();
