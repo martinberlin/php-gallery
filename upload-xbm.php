@@ -1,5 +1,6 @@
 <?php
 require("uploadClass.php");
+require("gallery/config.php");
 $getFolder = isset($_GET['f']) ? $_GET['f'] : 'no_folder';
 $getXbmThumb = (isset($_GET['thumb']) && $_GET['thumb'] == 0) ? false : true;
 $clientFolder = "{$getFolder}/";
@@ -8,7 +9,6 @@ $clientFolder = "{$getFolder}/";
 $thumb = array();
 $thumb['width']  = 128; // Thumbnail max. width
 $thumb['height'] = 64;  // 64  Thumbnail max. height
-$directoryBase = "camera-uploads/";
 $uploadBase = "uploads/".$clientFolder;
 
 if ($_FILES["upload"]["error"] > 0)

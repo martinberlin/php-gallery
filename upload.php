@@ -1,11 +1,10 @@
 <?php
 require("uploadClass.php");
+require("gallery/config.php");
 $getFolder = isset($_GET['f']) ? $_GET['f'] : 'no_folder';
 $getRotation = isset($_GET['r']) ? $_GET['r'] : 0;         // Rotation angle
 
 $clientFolder = "{$getFolder}/";
-
-$directoryBase = "camera-uploads/";
 $uploadBase = "uploads/".$clientFolder;
 
 if ($_FILES["upload"]["error"] > 0)

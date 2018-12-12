@@ -3,6 +3,8 @@
 // Directory where the pictures are uploaded
 $basedir    = "../uploads/";
 $thumbBaseDir    = "../thumbs/";
+// NOTE: End directoyBase (path) with an ending slash /
+$directoryBase  = "cam/babb/";  // PATH: If your domain is test.com with this path will use http://test.com/cam/babb as a base for url image
 
 $page_title = "api.slosarek Cam uploads";
 
