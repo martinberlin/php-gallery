@@ -14,10 +14,18 @@ if (in_array($_SERVER['REMOTE_ADDR'], $adminRightIps)) {
    $deleteFile = $basedir.$getFolder.$getFile;
 
    if (unlink($deleteFile)) {
-	   echo "File $getFile was deleted";
+	   echo "File $getFile was deleted. ";
        // Delete also thumbnail
        $thumb = $thumbBaseDir.$getFolder.$getFile;
        unlink($thumb);
+       // If there is no more images then delete also uploads and thumbs folder
+       if (count(scandir($basedir.$getFolder)) == 2) {
+           rmdir($basedir.$getFolder);
+           rmdir($thumbBaseDir.$getFolder);
+           $dirs = explode("/",$getFolder);
+           echo "<b>Emty directory {$getFolder} was deleted you will be redirected to {$dirs[0]} in 3 seconds</b>";
+           echo "<script>setTimeout(function(){ window.parent.location='folder.php?f={$dirs[0]}'; }, 3000);</script>";
+       }
    } else {
 	   echo "error deleting file";
    }

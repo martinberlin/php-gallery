@@ -41,7 +41,7 @@ if ($uploaded == false) {
 
 try {
 $im = new Imagick(realpath($uploadedFile));
-$im->setCompressionQuality(99);
+$im->setCompressionQuality(79);
 $im->resizeImage($thumb['width'], $thumb['height'], Imagick::FILTER_LANCZOS, 1, 1);
 $im->quantizeImage(8,                        // Number of colors  8  (8/16 for depth 4)
     Imagick::COLORSPACE_GRAY, // Colorspace
