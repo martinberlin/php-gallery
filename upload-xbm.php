@@ -1,10 +1,18 @@
 <?php
+$debug = true;
+if ($debug) {
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+}
 require("uploadClass.php");
 require("gallery/config.php");
 $getFolder = isset($_GET['f']) ? $_GET['f'] : 'no_folder';
-$getXbmThumb = (isset($_GET['thumb']) && $_GET['thumb'] == 0) ? false : true;
+$getXbmThumb = (!isset($_GET['thumb']) || $_GET['thumb'] == 1) ? 1 : $_GET['thumb'];
 $clientFolder = "{$getFolder}/";
 
+if ((is_numeric($getXbmThumb) && $getXbmThumb<3) === false) {
+    exit ("thumb parameter wrong");
+}
 // CONFIG
 $thumb = array();
 $thumb['width']  = 128; // Thumbnail max. width
@@ -62,12 +70,20 @@ $im->writeimage("xbm/test.xbm");
 // Populate imageObj before json encoding
 // TODO Process imageBlob and parse xbm into json
 $xbm = $im->getImageBlob();
-$cleanPixels = UploadHelper::parseXbmToArray($xbm);
 
 if ($getXbmThumb) {
-  $imageObj['xbm'] = $cleanPixels;
-  $imageObj['thumb_width'] = $im->getImageWidth();
-  $imageObj['thumb_height'] = $im->getImageHeight();
+    switch ($getXbmThumb) {
+        case 1:
+            $cleanPixels = UploadHelper::parseXbmToArray($xbm, false); // Return int array (smaller response)
+            break;
+        case 2:
+            $cleanPixels = UploadHelper::parseXbmToArray($xbm);
+            break;
+    }
+
+    $imageObj['xbm'] = $cleanPixels;
+    $imageObj['thumb_width'] = $im->getImageWidth();
+    $imageObj['thumb_height'] = $im->getImageHeight();
 }
 $imageObj['url'] = "http://".$_SERVER['HTTP_HOST']."/".$directoryBase.$directoryDate.$uploadedName;
 $imageObj['hash']= md5_file($uploadedFile);

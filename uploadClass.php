@@ -60,11 +60,11 @@ class UploadHelper {
     }
 
     /**
-     * Parse XBM image and extract the pixels into an array
+     * Parse XBM image and extract the pixels into an array of HEX pixels
      * @param $xbmBlob
      * @return array
      */
-    static function parseXbmToArray($xbmBlob) {
+    static function parseXbmToArray($xbmBlob, $hexa = true) {
         $pattern = "#{(.*?)}#s";
         preg_match($pattern, $xbmBlob, $matches);
         $explodedPixels = explode(",", $matches[1]);
@@ -72,8 +72,14 @@ class UploadHelper {
         // Iterate and cleanup whitespaces and \n
         $cleanPixels = array();
         foreach ($explodedPixels as $pixel) {
-            $cleanPixels[] = preg_replace('/\s+/', '', $pixel);
+            $pixel = preg_replace('/\s+/', '', $pixel);
+            if (!$hexa) {
+                $cleanPixels[] = hexdec($pixel);
+                continue;
+            }
+            $cleanPixels[] = $pixel;
         }
         return $cleanPixels;
     }
+
 }
