@@ -7,10 +7,10 @@ if ($debug) {
 require("uploadClass.php");
 require("gallery/config.php");
 $getFolder = isset($_GET['f']) ? $_GET['f'] : 'no_folder';
-$getXbmThumb = (!isset($_GET['thumb']) || $_GET['thumb'] == 1) ? 1 : $_GET['thumb'];
+$getXbmThumb = (!isset($_REQUEST['thumb']) || $_REQUEST['thumb'] == 1) ? 1 : $_REQUEST['thumb'];
 $clientFolder = "{$getFolder}/";
 
-if ((is_numeric($getXbmThumb) && $getXbmThumb<3) === false) {
+if ((is_numeric($getXbmThumb) && $getXbmThumb<4) === false) {
     exit ("thumb parameter wrong");
 }
 // CONFIG
@@ -64,24 +64,38 @@ $im->quantizeImage(8,                        // Number of colors  8  (8/16 for d
     exit (json_encode($imageObj));
 }
 
-// Save the image
-$im->setImageFormat('xbm'); //xbm
-$im->writeimage("xbm/test.xbm");
-// Populate imageObj before json encoding
-// TODO Process imageBlob and parse xbm into json
-$xbm = $im->getImageBlob();
+// Generate thumbnai
 
 if ($getXbmThumb) {
     switch ($getXbmThumb) {
+        // XBM int array (smaller response)
         case 1:
-            $cleanPixels = UploadHelper::parseXbmToArray($xbm, false); // Return int array (smaller response)
+            $im->setImageFormat('xbm'); //xbm
+            $im->writeimage("xbm/test.xbm");
+            $xbm = $im->getImageBlob();
+            $cleanPixels = UploadHelper::parseXbmToArray($xbm, false);
+            $imageObj['xbm'] = $cleanPixels;
             break;
+        // XBM default format (double size response)
         case 2:
+            $im->setImageFormat('xbm'); //xbm
+            $im->writeimage("xbm/test.xbm");
+            $xbm = $im->getImageBlob();
             $cleanPixels = UploadHelper::parseXbmToArray($xbm);
+            $imageObj['xbm'] = $cleanPixels;
+            break;
+        // JPG bytes
+        case 3:
+            $im->setImageFormat('jpg');
+            $jpg = $im->getImageBlob();
+            $cleanPixels = array();
+            foreach(str_split($jpg) as $char){
+                array_push($cleanPixels, ord($char));
+            }
+            $imageObj['count'] = count($cleanPixels);
+            $imageObj['jpg'] = $cleanPixels;
             break;
     }
-
-    $imageObj['xbm'] = $cleanPixels;
     $imageObj['thumb_width'] = $im->getImageWidth();
     $imageObj['thumb_height'] = $im->getImageHeight();
 }
