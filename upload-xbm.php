@@ -15,8 +15,9 @@ if ((is_numeric($getXbmThumb) && $getXbmThumb<4) === false) {
 }
 // CONFIG
 $thumb = array();
-$thumb['width']  = 128; // Thumbnail max. width
-$thumb['height'] = 64;  // 64  Thumbnail max. height
+$thumb['width']  = 128;     // Thumbnail max. width
+$thumb['height'] = 64;      // 64  Thumbnail max. height
+$thumb['height_jpg'] = 100; // TFT 7735
 $uploadBase = "uploads/".$clientFolder;
 
 if ($_FILES["upload"]["error"] > 0)
@@ -31,7 +32,6 @@ if ($_FILES["upload"]["error"] > 0)
 
 // Check if directory exists if not create it
     if (!is_dir($directoryDate)) {
-        //exit($directoryDate);
         mkdir($directoryDate);
     }
     $uploadedFile = $directoryDate.$uploadedName;
@@ -50,12 +50,18 @@ if ($uploaded == false) {
 try {
 $im = new Imagick(realpath($uploadedFile));
 $im->setCompressionQuality(79);
-$im->resizeImage($thumb['width'], $thumb['height'], Imagick::FILTER_LANCZOS, 1, 1);
-$im->quantizeImage(8,                        // Number of colors  8  (8/16 for depth 4)
-    Imagick::COLORSPACE_GRAY, // Colorspace
-    1,                        // Depth tree  16
-    TRUE,                     // Dither
-    FALSE);
+
+    if ($getXbmThumb == 3) {
+        $im->resizeImage($thumb['width'], $thumb['height_jpg'], Imagick::FILTER_LANCZOS, 1, 1);
+    } else {
+        $im->resizeImage($thumb['width'], $thumb['height'], Imagick::FILTER_LANCZOS, 1, 1);
+        $im->quantizeImage(8,                        // Number of colors  8  (8/16 for depth 4)
+            Imagick::COLORSPACE_GRAY, // Colorspace
+            1,                        // Depth tree  16
+            TRUE,                     // Dither
+            FALSE);
+    }
+
 } catch (ImagickException $e)
 {
     $xbm = UploadHelper::writeXbmMessage('Imagemagick '.$e->getMessage(), $thumb);
@@ -90,9 +96,11 @@ if ($getXbmThumb) {
             $jpg = $im->getImageBlob();
             $cleanPixels = array();
             foreach(str_split($jpg) as $char){
-                array_push($cleanPixels, ord($char));
+                array_push($cleanPixels, ord($char)); // For HEX image: "0x".strtoupper(bin2hex($char))
             }
-            $imageObj['count'] = count($cleanPixels);
+
+            //header("Content-Type: image/jpeg");exit($jpg); // Check JPEG
+            //exit(implode(",", $cleanPixels)); // DEBUG
             $imageObj['jpg'] = $cleanPixels;
             break;
     }
