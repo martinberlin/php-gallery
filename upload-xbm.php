@@ -17,7 +17,7 @@ if ((is_numeric($getXbmThumb) && $getXbmThumb<4) === false) {
 $thumb = array();
 $thumb['width']  = 128;     // Thumbnail max. width
 $thumb['height'] = 64;      // 64  Thumbnail max. height
-$thumb['height_jpg'] = 100; // TFT 7735
+$thumb['height_jpg'] = 64; // TFT 7735
 $uploadBase = "uploads/".$clientFolder;
 
 if ($_FILES["upload"]["error"] > 0)
@@ -81,6 +81,8 @@ if ($getXbmThumb) {
             $xbm = $im->getImageBlob();
             $cleanPixels = UploadHelper::parseXbmToArray($xbm, false);
             $imageObj['xbm'] = $cleanPixels;
+            $imageObj['thumb_width'] = $im->getImageWidth();
+            $imageObj['thumb_height'] = $im->getImageHeight();
             break;
         // XBM default format (double size response)
         case 2:
@@ -89,6 +91,8 @@ if ($getXbmThumb) {
             $xbm = $im->getImageBlob();
             $cleanPixels = UploadHelper::parseXbmToArray($xbm);
             $imageObj['xbm'] = $cleanPixels;
+            $imageObj['thumb_width'] = $im->getImageWidth();
+            $imageObj['thumb_height'] = $im->getImageHeight();
             break;
         // JPG bytes
         case 3:
@@ -104,8 +108,6 @@ if ($getXbmThumb) {
             $imageObj['jpg'] = $cleanPixels;
             break;
     }
-    $imageObj['thumb_width'] = $im->getImageWidth();
-    $imageObj['thumb_height'] = $im->getImageHeight();
 }
 $imageObj['url'] = "http://".$_SERVER['HTTP_HOST']."/".$directoryBase.$directoryDate.$uploadedName;
 $imageObj['hash']= md5_file($uploadedFile);
