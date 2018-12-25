@@ -17,7 +17,7 @@ if ((is_numeric($getXbmThumb) && $getXbmThumb<4) === false) {
 $thumb = array();
 $thumb['width']  = 128;     // Thumbnail max. width
 $thumb['height'] = 64;      // 64  Thumbnail max. height
-$thumb['height_jpg'] = 64; // TFT 7735
+$thumb['height_jpg'] = 50; // TFT 7735
 $uploadBase = "uploads/".$clientFolder;
 
 if ($_FILES["upload"]["error"] > 0)
@@ -102,10 +102,10 @@ if ($getXbmThumb) {
             foreach(str_split($jpg) as $char){
                 array_push($cleanPixels, ord($char)); // For HEX image: "0x".strtoupper(bin2hex($char))
             }
-
             //header("Content-Type: image/jpeg");exit($jpg); // Check JPEG
             //exit(implode(",", $cleanPixels)); // DEBUG
-            $imageObj['jpg'] = $cleanPixels;
+            $imageObj['jpg']    = $cleanPixels;
+            $imageObj['folder'] = $getFolder;
             break;
     }
 }
