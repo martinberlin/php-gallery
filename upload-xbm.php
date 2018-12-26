@@ -105,10 +105,10 @@ if ($getXbmThumb) {
             //header("Content-Type: image/jpeg");exit($jpg); // Check JPEG
             //exit(implode(",", $cleanPixels)); // DEBUG
             $imageObj['jpg']    = $cleanPixels;
-            $imageObj['folder'] = $getFolder;
             break;
     }
 }
 $imageObj['url'] = "http://".$_SERVER['HTTP_HOST']."/".$directoryBase.$directoryDate.$uploadedName;
 $imageObj['hash']= md5_file($uploadedFile);
+$imageObj['folder'] = $getFolder;
 echo json_encode($imageObj);
